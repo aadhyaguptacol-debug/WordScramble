@@ -74,5 +74,31 @@ struct ContentView: View {
             }
         }
     }
+    func addNewWord() {
+        let answer = newWord.lowercased()
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard !answer.isEmpty else {
+            return
+        }
+
+        guard answer.count >= 3 else {
+            wordError(
+                title: "Too short",
+                message: "Words must be at least 3 letters long!"
+            )
+            return
+        }
+
+    
+        guard answer != rootWord.lowercased() else {
+            wordError(
+                title: "Start word not allowed",
+                message: "You can't use the start word itself!"
+            )
+            return
+        }
+
+    
 
     
