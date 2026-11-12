@@ -15,4 +15,21 @@ struct ContentView: View {
     var score: Int {
         usedWords.reduce(0) { $0 + $1.count }
     }
-  
+    var body: some View {
+        NavigationStack {
+            List {
+            
+
+                Section {
+                    HStack {
+                        Label("Your Score", systemImage: "star.fill")
+                            .font(.headline)
+
+                        Spacer()
+
+                        Text("\(score)")
+                            .font(.title.bold())
+                            .foregroundStyle(.blue)
+                    }
+                }
+
