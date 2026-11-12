@@ -32,4 +32,47 @@ struct ContentView: View {
                             .foregroundStyle(.blue)
                     }
                 }
+ Section {
+                    TextField("Enter your word", text: $newWord)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                }
 
+             
+
+                Section {
+                    ForEach(usedWords, id: \.self) { word in
+                        HStack {
+                            Image(systemName: "\(word.count).circle")
+                            Text(word)
+
+                            Spacer()
+
+                            Text("+\(word.count)")
+                                .foregroundStyle(.green)
+                                .font(.caption.bold())
+                        }
+                    }
+                } header: {
+                    Text("Used Words")
+                }
+            }
+            .navigationTitle(rootWord)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: startGame) {
+                        Label("New Game", systemImage: "arrow.clockwise")
+                    }
+                }
+            }
+            .onSubmit(addNewWord)
+            .onAppear(perform: startGame)
+            .alert(errorTitle, isPresented: $showingError) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(errorMessage)
+            }
+        }
+    }
+
+    
