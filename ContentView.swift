@@ -124,7 +124,53 @@ struct ContentView: View {
             )
             return
         }
+ 
+        withAnimation {
+            usedWords.insert(answer, at: 0)
+        }
 
+        newWord = ""
+    }
+
+  
+
+    func startGame() {
+        guard let startWordsURL = Bundle.main.url(
+            forResource: "start",
+            withExtension: "txt"
+        ) else {
+            fatalError("Could not find start.txt in bundle.")
+        }
+
+        guard let startWords = try? String(
+            contentsOf: startWordsURL,
+            encoding: .utf8
+        ) else {
+            fatalError("Could not load start.txt.")
+        }
+
+        let allWords = startWords
+            .components(separatedBy: .newlines)
+            .map {
+                $0.trimmingCharacters(in: .whitespacesAndNewlines)
+            }
+            .filter { !$0.isEmpty }
+
+        guard !allWords.isEmpty else {
+            fatalError("start.txt contains no words.")
+        }
+
+       
+        let newWords = allWords.filter {
+            $0.lowercased() != rootWord.lowercased()
+        }
+
+        rootWord = newWords.randomElement() ?? allWords.randomElement()!
+
+        usedWords.removeAll()
+        newWord = ""
+        showingError = false
+    }
     
 
     
