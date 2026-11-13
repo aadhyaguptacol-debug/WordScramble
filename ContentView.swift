@@ -171,6 +171,59 @@ struct ContentView: View {
         newWord = ""
         showingError = false
     }
+        func isOriginal(word: String) -> Bool {
+        !usedWords.contains(word)
+    }
+
+    
+
+    func isPossible(word: String) -> Bool {
+        var tempWord = rootWord.lowercased()
+
+        for letter in word {
+            if let position = tempWord.firstIndex(of: letter) {
+                tempWord.remove(at: position)
+            } else {
+                return false
+            }
+        }
+
+        return true
+    }
+
+     func isReal(word: String) -> Bool {
+        let checker = UITextChecker()
+
+        let range = NSRange(
+            location: 0,
+            length: word.utf16.count
+        )
+
+        let misspelledRange = checker.rangeOfMisspelledWord(
+            in: word,
+            range: range,
+            startingAt: 0,
+            wrap: false,
+            language: "en"
+        )
+
+        return misspelledRange.location == NSNotFound
+    }
+
+ 
+
+    func wordError(title: String, message: String) {
+        errorTitle = title
+        errorMessage = message
+        showingError = true
+    }
+}
+
+#Preview {
+    ContentView()
+}
+
+
     
 
     
